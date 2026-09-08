@@ -1,0 +1,390 @@
+{
+  "python": [
+    {
+      "title": "Python Fundamentals",
+      "description": "Learn Python syntax, variables, loops, functions, object-oriented programming, and problem-solving techniques from beginner to advanced level."
+    },
+    {
+      "title": "Web Development with Python",
+      "description": "Build powerful web applications using Django and Flask frameworks with backend integration, authentication, and APIs."
+    },
+    {
+      "title": "Data Analysis with Python",
+      "description": "Analyze and visualize data using NumPy, Pandas, and Matplotlib libraries to generate business insights and reports."
+    },
+    {
+      "title": "Automation & Scripting",
+      "description": "Automate repetitive tasks, web scraping, file handling, and system operations using Python scripting techniques."
+    },
+    {
+      "title": "Machine Learning with Python",
+      "description": "Learn machine learning concepts, predictive modeling, and AI algorithms using Scikit-learn and Python libraries."
+    },
+    {
+      "title": "Database Programming",
+      "description": "Connect Python applications with MySQL and MongoDB databases and perform CRUD operations efficiently."
+    },
+    {
+      "title": "REST API Development",
+      "description": "Create scalable REST APIs using Flask and Django REST Framework for modern web and mobile applications."
+    },
+    {
+      "title": "Real-Time Python Projects",
+      "description": "Build industry-level projects and deploy Python applications using modern development and cloud deployment practices."
+    }
+  ],
+  "dataanalytics": [
+    {
+      "title": "Data Analytics Fundamentals",
+      "description": "Learn the basics of data analytics, data processing, data interpretation, and business intelligence concepts used in industries."
+    },
+    {
+      "title": "Excel for Data Analytics",
+      "description": "Master advanced Excel functions, pivot tables, dashboards, charts, formulas, and data cleaning techniques for analytics."
+    },
+    {
+      "title": "SQL & Database Management",
+      "description": "Learn SQL queries, joins, data extraction, and database management techniques for handling structured data efficiently."
+    },
+    {
+      "title": "Python for Analytics",
+      "description": "Use Python libraries like Pandas, NumPy, and Matplotlib for data analysis, automation, and visualization tasks."
+    },
+    {
+      "title": "Data Visualization Tools",
+      "description": "Create interactive dashboards and reports using Power BI and Tableau for effective business decision-making."
+    },
+    {
+      "title": "Statistical Analysis",
+      "description": "Understand statistical concepts including probability, hypothesis testing, correlation, and regression analysis."
+    },
+    {
+      "title": "Business Intelligence & Reporting",
+      "description": "Learn to generate actionable insights, reports, KPIs, and performance dashboards for organizations."
+    },
+    {
+      "title": "Real-Time Analytics Projects",
+      "description": "Work on live industry projects involving business analytics, customer insights, sales forecasting, and reporting systems."
+    }
+  ],
+  "datascience-aiml": [
+    {
+      "title": "Python for Data Science",
+      "description": "Learn Python programming fundamentals, libraries, and tools used for modern Data Science, AI, and Machine Learning applications."
+    },
+    {
+      "title": "Data Analysis & Visualization",
+      "description": "Analyze and visualize datasets using NumPy, Pandas, Matplotlib, and Seaborn to uncover business insights and trends."
+    },
+    {
+      "title": "Machine Learning Algorithms",
+      "description": "Learn supervised and unsupervised learning techniques including regression, classification, clustering, and model evaluation."
+    },
+    {
+      "title": "Artificial Intelligence Fundamentals",
+      "description": "Understand AI concepts, intelligent systems, automation, and real-world AI applications across industries."
+    },
+    {
+      "title": "Deep Learning & Neural Networks",
+      "description": "Build neural network models and deep learning systems using TensorFlow and Keras for advanced AI solutions."
+    },
+    {
+      "title": "Natural Language Processing",
+      "description": "Develop NLP applications including chatbots, text analysis, sentiment analysis, and language understanding systems."
+    },
+    {
+      "title": "Predictive Analytics & AI Models",
+      "description": "Create predictive models and AI-powered solutions for forecasting, recommendations, and intelligent decision-making."
+    },
+    {
+      "title": "Real-Time AI & Data Science Projects",
+      "description": "Work on industry-level projects involving analytics dashboards, AI systems, recommendation engines, and automation tools."
+    }
+  ],
+  "datascience-python": [
+    {
+      "title": "Python for Data Science",
+      "description": "Learn Python programming fundamentals, data structures, functions, and libraries required for modern Data Science applications."
+    },
+    {
+      "title": "Data Analysis & Manipulation",
+      "description": "Work with real-world datasets using NumPy and Pandas for data cleaning, preprocessing, transformation, and analysis."
+    },
+    {
+      "title": "Data Visualization",
+      "description": "Create interactive charts, dashboards, and visual reports using Matplotlib, Seaborn, and Plotly libraries."
+    },
+    {
+      "title": "Machine Learning Fundamentals",
+      "description": "Learn supervised and unsupervised learning algorithms including regression, classification, clustering, and model evaluation."
+    },
+    {
+      "title": "Predictive Analytics",
+      "description": "Build predictive models and analyze patterns using machine learning techniques for business intelligence and forecasting."
+    },
+    {
+      "title": "Deep Learning Basics",
+      "description": "Understand neural networks, deep learning concepts, and AI model building using TensorFlow and Keras frameworks."
+    },
+    {
+      "title": "SQL & Database Integration",
+      "description": "Learn SQL queries, database management, and integration of Python applications with relational databases."
+    },
+    {
+      "title": "Real-Time Data Science Projects",
+      "description": "Work on real-time industry projects involving analytics, recommendation systems, forecasting, and intelligent automation."
+    }
+  ],
+  "aws-azure": [
+    {
+      "title": "AWS Cloud Fundamentals",
+      "description": "Learn cloud computing concepts, AWS services, EC2, S3, IAM, VPC, and cloud infrastructure management."
+    },
+    {
+      "title": "Azure AI Fundamentals",
+      "description": "Understand Microsoft Azure AI services, cognitive services, AI tools, and intelligent cloud-based solutions."
+    },
+    {
+      "title": "Cloud Architecture & Deployment",
+      "description": "Design scalable cloud architectures and deploy applications using AWS and Azure cloud platforms."
+    },
+    {
+      "title": "DevOps & Cloud Automation",
+      "description": "Learn CI/CD pipelines, Docker, Kubernetes, automation tools, and infrastructure management for cloud environments."
+    },
+    {
+      "title": "AI Services Integration",
+      "description": "Integrate AI APIs, machine learning models, chatbots, and intelligent automation services into cloud applications."
+    },
+    {
+      "title": "Security & Cloud Monitoring",
+      "description": "Implement cloud security best practices, identity management, monitoring, logging, and performance optimization."
+    },
+    {
+      "title": "Serverless & Cloud Databases",
+      "description": "Work with serverless computing, Lambda functions, cloud databases, and scalable backend services."
+    },
+    {
+      "title": "Real-Time Cloud & AI Projects",
+      "description": "Build real-world projects involving cloud deployment, AI integration, automation systems, and enterprise applications."
+    }
+  ],
+  "ai&ml": [
+    {
+      "title": "Artificial Intelligence Fundamentals",
+      "description": "Learn the core concepts of Artificial Intelligence including intelligent systems, problem-solving, search algorithms, and real-world AI applications."
+    },
+    {
+      "title": "Machine Learning Algorithms",
+      "description": "Understand supervised and unsupervised learning, regression, classification, clustering, and predictive modeling using real datasets."
+    },
+    {
+      "title": "Deep Learning & Neural Networks",
+      "description": "Build advanced neural network models using TensorFlow and Keras for image recognition, NLP, and intelligent automation systems."
+    },
+    {
+      "title": "Data Preprocessing & Visualization",
+      "description": "Learn data cleaning, feature engineering, data transformation, and visualization techniques using Python libraries."
+    },
+    {
+      "title": "Natural Language Processing (NLP)",
+      "description": "Develop AI systems capable of understanding and processing human language for chatbots, sentiment analysis, and text classification."
+    },
+    {
+      "title": "Computer Vision",
+      "description": "Train AI models to process and analyze images and videos using OpenCV, CNNs, and image recognition techniques."
+    },
+    {
+      "title": "AI Model Deployment",
+      "description": "Learn how to deploy machine learning models into production environments and integrate them into real-world applications."
+    },
+    {
+      "title": "Real-Time AI Projects",
+      "description": "Work on industry-level projects including recommendation systems, chatbots, face recognition systems, and predictive analytics."
+    }
+  ],
+  "genai-agenticai": [
+    {
+      "title": "Generative AI Fundamentals",
+      "description": "Learn the core concepts of Generative AI, Large Language Models (LLMs), transformers, and modern AI technologies."
+    },
+    {
+      "title": "Prompt Engineering",
+      "description": "Master prompt engineering techniques to interact effectively with AI models for automation, content generation, and intelligent systems."
+    },
+    {
+      "title": "Large Language Models (LLMs)",
+      "description": "Understand how GPT, Gemini, Claude, and other LLMs work and learn to build applications using advanced AI models."
+    },
+    {
+      "title": "Agentic AI Systems",
+      "description": "Learn how autonomous AI agents work, including reasoning, planning, memory, decision-making, and task execution."
+    },
+    {
+      "title": "AI Automation & Workflows",
+      "description": "Build intelligent automation systems and AI-powered workflows for business processes and productivity enhancement."
+    },
+    {
+      "title": "LangChain & AI Frameworks",
+      "description": "Work with LangChain, vector databases, APIs, and AI frameworks to build advanced GenAI and Agentic AI applications."
+    },
+    {
+      "title": "AI Chatbots & Assistants",
+      "description": "Develop AI-powered chatbots, virtual assistants, and intelligent conversational systems using modern AI technologies."
+    },
+    {
+      "title": "Real-Time GenAI Projects",
+      "description": "Build real-world projects including AI agents, automation tools, recommendation systems, and enterprise AI applications."
+    }
+  ],
+  "fullstack-aiengineer": [
+    {
+      "title": "Frontend Development",
+      "description": "Learn HTML, CSS, JavaScript, React.js, and responsive UI development for building modern AI-powered web applications."
+    },
+    {
+      "title": "Backend Development",
+      "description": "Build scalable backend systems using Node.js, Express.js, Python, APIs, authentication, and server-side development."
+    },
+    {
+      "title": "Database Management",
+      "description": "Work with SQL and NoSQL databases including MySQL and MongoDB for efficient data storage and management."
+    },
+    {
+      "title": "Artificial Intelligence Fundamentals",
+      "description": "Understand AI concepts, machine learning basics, intelligent systems, and AI-driven application development."
+    },
+    {
+      "title": "Generative AI & LLMs",
+      "description": "Learn Generative AI concepts, prompt engineering, Large Language Models, and AI-powered application integration."
+    },
+    {
+      "title": "AI APIs & Integration",
+      "description": "Integrate OpenAI APIs, AI chatbots, automation tools, and intelligent assistants into full stack applications."
+    },
+    {
+      "title": "Cloud Deployment & DevOps",
+      "description": "Deploy full stack AI applications using cloud platforms, GitHub, Docker, CI/CD pipelines, and hosting services."
+    },
+    {
+      "title": "Real-Time Full Stack AI Projects",
+      "description": "Build industry-level AI-powered web applications including chatbots, AI dashboards, automation tools, and SaaS platforms."
+    }
+  ],
+  "cybersecurity-courses": [
+    {
+      "title": "Cloud Security (AWS, Azure, GCP)",
+      "description": "Learn how to secure cloud infrastructure and data across AWS, Azure, and Google Cloud. Hands-on labs for IAM, encryption, DLP, firewall policies, and more."
+    },
+    {
+      "title": "Network Security & Infrastructure Defense",
+      "description": "Master network protocols, firewalls, VPNs, and intrusion detection systems. Build secure network architectures and respond to real-world threats."
+    },
+    {
+      "title": "Threat Detection & SOC Analyst Training",
+      "description": "Train as a Security Operations Center analyst. Learn to monitor, detect, and respond to cyber incidents in real-time."
+    },
+    {
+      "title": "Ethical Hacking & Penetration Testing",
+      "description": "Become a certified ethical hacker. Learn offensive security techniques to identify and fix vulnerabilities before attackers do."
+    },
+    {
+      "title": "Identity and Access Management (IAM)",
+      "description": "Master user authentication, authorization, and access control mechanisms across enterprise systems."
+    },
+    {
+      "title": "Cybersecurity Governance, Risk & Compliance (GRC)",
+      "description": "Learn compliance frameworks like ISO 27001, NIST, and HIPAA. Develop security policies and risk management strategies."
+    },
+    {
+      "title": "Cyber Forensics & Malware Analysis",
+      "description": "Investigate cyber incidents, analyze malware, and preserve digital evidence for legal proceedings."
+    },
+    {
+      "title": "Application Security & DevSecOps",
+      "description": "Secure applications throughout the development lifecycle. Integrate security into DevOps pipelines for continuous protection."
+    }
+  ],
+  "faculty-development-program": [
+    {
+      "title": "Data Science Foundation",
+      "description": "Data Engineering Fundamentals: Data ingestion, ETL pipelines, APIs, and database handling Data Cleaning, Pre-processing, and Quality Assessment Exploratory Data Analysis (EDA) and Hypothesis Testing Feature Engineering and Data Visualization Hands-on Project: Real-time data pipeline + full EDA report"
+    },
+    {
+      "title": "Machine Learning Foundations",
+      "description": "Master supervised, unsupervised learning, and advanced ML techniques for real-world applications."
+    },
+    {
+      "title": "Introduction to Generative AI",
+      "description": "Learn transformer architectures, prompt engineering, and foundational GenAI concepts."
+    },
+    {
+      "title": "Advanced Gen AI & Agentic AI",
+      "description": "Build autonomous AI agents, implement RAG systems, and deploy production-ready GenAI solutions."
+    },
+    {
+      "title": "Capstone Projects & Educator Portfolio",
+      "description": "Complete 3 major projects and build a professional portfolio for academic and research applications."
+    }
+  ],
+  "campus-recruitment-training": [
+    {
+      "title": "Quantitative Aptitude",
+      "description": "Number Systems, Ratios, Percentages, Averages, Profit & Loss Time, Speed, Distance; Time & Work; Permutations and Combinations Data Interpretation (DI) using graphs, tables, and charts"
+    },
+    {
+      "title": "Logical Reasoning",
+      "description": "Master puzzles, syllogisms, and critical thinking skills required by top companies during placement drives."
+    },
+    {
+      "title": "Verbal Ability & Communication Skills",
+      "description": "Enhance English proficiency, grammar, speaking confidence, and professional communication abilities."
+    },
+    {
+      "title": "Technical Skills (Stream-Specific)",
+      "description": "Gain core technical knowledge tailored to engineering, IT, and specialization-specific recruitment requirements."
+    },
+    {
+      "title": "Coding & Problem Solving (Advanced Track - Optional)",
+      "description": "Master coding interviews, DSA concepts, algorithms, and competitive programming challenges."
+    },
+    {
+      "title": "Resume Building & Career Guidance",
+      "description": "Learn to create professional resumes, LinkedIn profiles, and develop career strategies for placements."
+    }
+  ],
+  "sap-courses": [
+    {
+      "title": "SAP S/4HANA (Finance, Logistics, Technical)",
+      "description": "Master SAP's next-gen ERP suite replacing ECC in global enterprises. Choose from Finance (FI/CO), Logistics (MM, SD, PP), or Technical (ABAP) tracks."
+    },
+    {
+      "title": "SAP FICO (Finance and Controlling)",
+      "description": "Learn financial accounting, cost accounting, and reporting in SAP systems."
+    },
+    {
+      "title": "SAP ABAP (Development & Programming)",
+      "description": "Master the SAP programming language for custom development and enhancements."
+    },
+    {
+      "title": "SAP BASIS / Security / GRC",
+      "description": "Learn system administration, security protocols, and governance frameworks."
+    },
+    {
+      "title": "SAP SuccessFactors (Cloud HCM)",
+      "description": "Master cloud-based human capital management for modern enterprises."
+    },
+    {
+      "title": "SAP MM & SD (Materials Management & Sales Distribution)",
+      "description": "Master procurement, inventory, and sales operations in ERP systems."
+    },
+    {
+      "title": "SAP BW/4HANA & SAP Analytics Cloud (SAC)",
+      "description": "Learn business analytics, data warehousing, and advanced reporting."
+    },
+    {
+      "title": "SAP BTP (Business Technology Platform)",
+      "description": "Build cloud-native applications and integrations on SAP's modern platform."
+    }
+  ]
+}
