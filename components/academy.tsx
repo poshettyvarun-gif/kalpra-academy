@@ -15,7 +15,48 @@ import {
   GraduationCap,
   Users,
   BriefcaseBusiness,
+  ChevronDown,
 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { defaultCmsContent, type CmsContent } from '@/lib/cms-content';
+
+const navigation = [
+  {
+    name: 'Courses',
+    label: 'Explore learning',
+    links: [
+      ['All courses', '/courses'],
+      [
+        'AI & Machine Learning',
+        '/courses?category=AI%20%26%20Machine%20Learning',
+      ],
+      ['Data Science', '/courses?category=Data%20Science'],
+      ['Development', '/courses?category=Development'],
+    ],
+  },
+  {
+    name: 'Services',
+    label: 'Beyond the classroom',
+    links: [
+      ['Services overview', '/#services'],
+      [
+        'Academic collaborations',
+        '/contact?interest=Academic%20Collaborations',
+      ],
+      ['Hands-on workshops', '/contact?interest=Hands-On%20Workshops'],
+      ['Industrial training', '/contact?interest=Industrial%20Training'],
+    ],
+  },
+];
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -45,18 +86,47 @@ export function Header() {
             aria-label="Main navigation"
             className={open ? 'nav-links open' : 'nav-links'}
           >
-            {[
-              ['Home', '/'],
-              ['Courses', '/courses'],
-              ['Services', '/#services'],
-              ['About Us', '/about'],
-              ['Why Kalpra', '/#why-kalpra'],
-              ['Contact', '/contact'],
-            ].map(([name, url]) => (
-              <Link key={name} href={url} onClick={() => setOpen(false)}>
-                {name}
-              </Link>
+            <Link href="/" onClick={() => setOpen(false)}>
+              Home
+            </Link>
+            {navigation.map(({ name, label, links }) => (
+              <DropdownMenu key={name}>
+                <DropdownMenuTrigger className="nav-menu-trigger">
+                  {name} <ChevronDown size={14} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="nav-dropdown"
+                  align="center"
+                  sideOffset={13}
+                >
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel>{label}</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    {links.map(([item, url]) => (
+                      <DropdownMenuItem
+                        key={item}
+                        className="nav-dropdown-item"
+                        render={
+                          <Link href={url} onClick={() => setOpen(false)} />
+                        }
+                      >
+                        {item}
+                        <ArrowUpRight size={14} />
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ))}
+            <Link href="/about" onClick={() => setOpen(false)}>
+              About Us
+            </Link>
+            <Link href="/#why-kalpra" onClick={() => setOpen(false)}>
+              Why Kalpra
+            </Link>
+            <Link href="/contact" onClick={() => setOpen(false)}>
+              Contact
+            </Link>
           </nav>
           <Link
             className="button small nav-cta"
@@ -77,29 +147,22 @@ export function Header() {
     </>
   );
 }
-export function Hero() {
+export function Hero({
+  content = defaultCmsContent.hero,
+}: {
+  content?: CmsContent['hero'];
+}) {
   return (
     <section className="hero" id="home">
       <div className="container hero-grid">
         <div className="hero-copy">
           <span className="eyebrow hero-badge">
-            <span /> BUILD SKILLS. BUILD YOUR FUTURE.
+            <span /> {content.badge}
           </span>
           <h1>
-            Learn future-ready
-            <br />
-            skills.{' '}
-            <span>
-              Build your
-              <br />
-              career.
-            </span>
+            {content.title} <span>{content.accent}</span>
           </h1>
-          <p>
-            Big ambitions deserve the right skills. Learn from expert mentors,
-            build real projects, and take your next step into the world of
-            technology.
-          </p>
+          <p>{content.description}</p>
           <div className="button-row">
             <Link className="button" href="/courses">
               Explore Courses <ArrowRight size={18} />
@@ -129,7 +192,7 @@ export function Hero() {
           </div>
           <div className="hero-photo">
             <img
-              src="/assets/hero.jpg"
+              src={content.image}
               alt="Students learning together with a mentor at their laptops"
               width="1080"
               height="628"

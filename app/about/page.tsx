@@ -8,12 +8,16 @@ import {
   Footer,
   SectionHeading,
 } from '@/components/sections';
+import { getCmsContent } from '@/lib/cms-server';
 export const metadata = {
   title: 'About Us',
   description:
     'Get to know Kalpra Academy, founder Dr. Malleswar Yenugu, and our practical approach to technology education.',
 };
-export default function About() {
+export const dynamic = 'force-dynamic';
+
+export default async function About() {
+  const content = await getCmsContent();
   return (
     <>
       <Header />
@@ -75,10 +79,13 @@ export default function About() {
         <Founder />
         <WhyKalpra />
         <Approach />
-        <Collaborations />
+        <Collaborations items={content.partners} />
         <FinalCTA />
       </main>
-      <Footer />
+      <Footer
+        contactEmail={content.contact.email}
+        courseItems={content.courses}
+      />
     </>
   );
 }

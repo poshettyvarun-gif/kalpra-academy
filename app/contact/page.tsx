@@ -1,11 +1,15 @@
 import { Header } from '@/components/academy';
 import { ContactSection, Footer } from '@/components/sections';
+import { getCmsContent } from '@/lib/cms-server';
 export const metadata = {
   title: 'Contact Us',
   description:
     'Contact Kalpra Academy in Hyderabad and Houston for programs, enrollment and academic collaboration.',
 };
-export default function Contact() {
+export const dynamic = 'force-dynamic';
+
+export default async function Contact() {
+  const content = await getCmsContent();
   return (
     <>
       <Header />
@@ -18,9 +22,15 @@ export default function Contact() {
             </h1>
           </div>
         </div>
-        <ContactSection />
+        <ContactSection
+          details={content.contact}
+          courseItems={content.courses}
+        />
       </main>
-      <Footer />
+      <Footer
+        contactEmail={content.contact.email}
+        courseItems={content.courses}
+      />
     </>
   );
 }

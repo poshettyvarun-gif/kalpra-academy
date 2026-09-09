@@ -5,6 +5,7 @@ import {
   WhyKalpra,
   Approach,
   Services,
+  Outcomes,
   Founder,
   Collaborations,
   Gallery,
@@ -12,25 +13,37 @@ import {
   ContactSection,
   Footer,
 } from '@/components/sections';
-export default function Home() {
+import { getCmsContent } from '@/lib/cms-server';
+
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  const content = await getCmsContent();
   return (
     <>
       <Header />
       <main id="main">
-        <Hero />
+        <Hero content={content.hero} />
         <Benefits />
         <Audience />
-        <Programs />
+        <Programs items={content.courses} />
         <WhyKalpra />
         <Approach />
-        <Services />
+        <Services items={content.services} />
+        <Outcomes items={content.outcomes} />
         <Founder />
-        <Collaborations />
-        <Gallery />
+        <Collaborations items={content.partners} />
+        <Gallery images={content.gallery} />
         <FinalCTA />
-        <ContactSection />
+        <ContactSection
+          details={content.contact}
+          courseItems={content.courses}
+        />
       </main>
-      <Footer />
+      <Footer
+        contactEmail={content.contact.email}
+        courseItems={content.courses}
+      />
     </>
   );
 }

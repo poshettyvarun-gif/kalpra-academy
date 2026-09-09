@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Header } from '@/components/academy';
 import { Footer, FinalCTA } from '@/components/sections';
-import { courses, enrollmentUrl } from '@/lib/courses';
+import { enrollmentUrl } from '@/lib/courses';
+import { getCmsContent } from '@/lib/cms-server';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -20,6 +21,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const { courses } = await getCmsContent();
   const course = courses.find((c) => c.slug === decodeURIComponent(slug));
   if (!course) return { title: 'Page Not Found' };
   return {
@@ -32,12 +34,16 @@ export async function generateMetadata({
     },
   };
 }
+export const dynamic = 'force-dynamic';
+
 export default async function CoursePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const content = await getCmsContent();
+  const { courses } = content;
   const course = courses.find((c) => c.slug === decodeURIComponent(slug));
   if (!course) notFound();
   const project = course.modules.find((m) =>
@@ -88,7 +94,11 @@ export default async function CoursePage({
                 </div>
               </div>
               <img
-                src={`/assets/${course.image}`}
+                src={
+                  course.image.startsWith('/')
+                    ? course.image
+                    : `/assets/${course.image}`
+                }
                 alt={`${course.name} program`}
                 width="600"
                 height="400"
@@ -250,7 +260,10 @@ export default async function CoursePage({
         </div>
         <FinalCTA />
       </main>
-      <Footer />
+      <Footer
+        contactEmail={content.contact.email}
+        courseItems={content.courses}
+      />
     </>
   );
 }

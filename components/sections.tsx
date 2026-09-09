@@ -3,7 +3,7 @@
 'use client';
 import Link from 'next/link';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   ArrowRight,
@@ -52,6 +52,11 @@ import {
   email,
   enrollmentUrl,
 } from '@/lib/courses';
+import {
+  defaultCmsContent,
+  type CmsContent,
+  type CmsService,
+} from '@/lib/cms-content';
 
 export function SectionHeading({
   label,
@@ -152,7 +157,11 @@ export function CourseCard({ course }: { course: Course }) {
         aria-label={`View ${course.name}`}
       >
         <img
-          src={`/assets/${course.image}`}
+          src={
+            course.image.startsWith('/')
+              ? course.image
+              : `/assets/${course.image}`
+          }
           alt={`${course.name} program`}
           loading="lazy"
           width="600"
@@ -191,7 +200,13 @@ export function CourseCard({ course }: { course: Course }) {
     </article>
   );
 }
-export function Programs({ full = false }: { full?: boolean }) {
+export function Programs({
+  full = false,
+  items = courses,
+}: {
+  full?: boolean;
+  items?: typeof courses;
+}) {
   const searchParams = useSearchParams();
   const requested = searchParams.get('category');
   const [chosen, setCategory] = useState<string | null>(null);
@@ -226,7 +241,7 @@ export function Programs({ full = false }: { full?: boolean }) {
           {categories.map((c) => (
             <TabsContent key={c} value={c}>
               <div className="courses-grid">
-                {courses
+                {items
                   .filter((x) => c === 'All Programs' || x.category === c)
                   .slice(0, full ? 12 : c === 'All Programs' ? 6 : 12)
                   .map((course) => (
@@ -365,37 +380,18 @@ export function Approach() {
     </section>
   );
 }
-const services = [
-  {
-    icon: Building2,
-    title: 'Academic Collaborations',
-    text: 'Connect classroom education with practical, industry-aligned programs.',
-    benefits: ['Curriculum enhancement', 'Industry-focused learning'],
-    image: '2.jpg',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Hands-On Workshops',
-    text: 'Focused learning sessions that turn technical concepts into practical skills.',
-    benefits: ['Prompt engineering', 'Cloud integration labs'],
-    image: '3.jpg',
-  },
-  {
-    icon: Trophy,
-    title: 'AI Hackathons',
-    text: 'Bring ideas to life with collaborative challenges and functional AI prototypes.',
-    benefits: ['Real-world problem statements', 'Industry expert judging'],
-    image: '5.jpg',
-  },
-  {
-    icon: Layers,
-    title: 'Industrial Training',
-    text: 'Get practical industry exposure and prepare for corporate environments.',
-    benefits: ['Applied technical training', 'Career-focused guidance'],
-    image: '7.jpg',
-  },
-];
-export function Services() {
+const serviceIcons: Record<CmsService['icon'], typeof Building2> = {
+  building: Building2,
+  idea: Lightbulb,
+  trophy: Trophy,
+  layers: Layers,
+};
+
+export function Services({
+  items = defaultCmsContent.services,
+}: {
+  items?: CmsContent['services'];
+}) {
   return (
     <section className="section services-section" id="services">
       <div className="container">
@@ -413,38 +409,138 @@ export function Services() {
           </Link>
         </div>
         <div className="services-grid">
-          {services.map(({ icon: Icon, title, text, benefits, image }) => (
-            <article className="service-card" key={title}>
-              <div className="service-image">
-                <img
-                  src={`/assets/${image}`}
-                  alt={`Kalpra Academy learning and collaboration event`}
-                  loading="lazy"
-                  width="600"
-                  height="330"
-                />
-                <span className="icon-box">
-                  <Icon size={22} />
-                </span>
-              </div>
-              <div className="service-body">
-                <h3>{title}</h3>
-                <p>{text}</p>
-                <ul>
-                  {benefits.map((b) => (
-                    <li key={b}>
-                      <Check size={14} />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  className="text-link"
-                  href={`/contact?interest=${encodeURIComponent(title)}`}
-                >
-                  Let’s talk <ArrowUpRight size={17} />
-                </Link>
-              </div>
+          {items.map(({ icon, title, text, benefits, image }) => {
+            const Icon = serviceIcons[icon] || Building2;
+            return (
+              <article className="service-card" key={title}>
+                <div className="service-image">
+                  <img
+                    src={image}
+                    alt={`Kalpra Academy learning and collaboration event`}
+                    loading="lazy"
+                    width="600"
+                    height="330"
+                  />
+                  <span className="icon-box">
+                    <Icon size={22} />
+                  </span>
+                </div>
+                <div className="service-body">
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                  <ul>
+                    {benefits.map((b) => (
+                      <li key={b}>
+                        <Check size={14} />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    className="text-link"
+                    href={`/contact?interest=${encodeURIComponent(title)}`}
+                  >
+                    Let’s talk <ArrowUpRight size={17} />
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AnimatedCounter({
+  target,
+  suffix,
+  label,
+}: {
+  target: number;
+  suffix: string;
+  label: string;
+}) {
+  const [value, setValue] = useState(0);
+  const counterRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = counterRef.current;
+    if (!element) return;
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    if (reduceMotion) {
+      const reducedMotionFrame = requestAnimationFrame(() => setValue(target));
+      return () => cancelAnimationFrame(reducedMotionFrame);
+    }
+
+    let frame = 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        const startedAt = performance.now();
+        const duration = 1700;
+        const animate = (now: number) => {
+          const progress = Math.min((now - startedAt) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 4);
+          setValue(Math.round(target * eased));
+          if (progress < 1) frame = requestAnimationFrame(animate);
+        };
+        frame = requestAnimationFrame(animate);
+        observer.unobserve(element);
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [target]);
+
+  return (
+    <strong ref={counterRef} aria-label={`${target}${suffix} ${label}`}>
+      <span aria-hidden="true">
+        {value}
+        {suffix}
+      </span>
+    </strong>
+  );
+}
+
+export function Outcomes({
+  items = defaultCmsContent.outcomes,
+}: {
+  items?: CmsContent['outcomes'];
+}) {
+  return (
+    <section
+      className="outcomes-section"
+      id="outcomes"
+      aria-labelledby="outcomes-title"
+    >
+      <div className="container outcomes-layout">
+        <div className="outcomes-copy">
+          <span className="eyebrow">PROGRESS YOU CAN SEE</span>
+          <h2 id="outcomes-title">
+            Learning that creates
+            <br />
+            <span>real momentum.</span>
+          </h2>
+          <p>
+            A growing community of learners, mentors and programs focused on
+            practical technology skills.
+          </p>
+        </div>
+        <div className="outcomes-grid">
+          {items.map(({ target, suffix, label }, index) => (
+            <article key={label}>
+              <span className="outcome-index">0{index + 1}</span>
+              <AnimatedCounter target={target} suffix={suffix} label={label} />
+              <span className="outcome-label">{label}</span>
             </article>
           ))}
         </div>
@@ -501,72 +597,53 @@ export function Founder() {
     </section>
   );
 }
-export function Collaborations() {
+export function Collaborations({
+  items = defaultCmsContent.partners,
+}: {
+  items?: CmsContent['partners'];
+}) {
   return (
-    <section className="collaboration-section">
+    <section className="collaboration-section" id="collaborations">
       <div className="container">
         <SectionHeading
           label="LEARNING, CONNECTED"
           title="Growing through collaboration."
           center
         />
-        <div className="collaboration-grid">
-          <div>
-            <h3>Technical Collaborations</h3>
-            <div className="partner-logos">
-              {[
-                [
-                  'KalpraTech_logo.jpeg',
-                  'KalpraTech',
-                  'https://www.kalpratech.com/',
-                ],
-                [
-                  'bytelink_logo .jpeg',
-                  'Bytelink',
-                  'https://www.bytelinksys.com/',
-                ],
-                [
-                  'PraiseTech_logo.jpeg',
-                  'PraiseTech',
-                  'https://www.praisetechsol.com/',
-                ],
-              ].map(([image, name, url]) => (
-                <Link key={name} href={url} target="_blank" rel="noreferrer">
+        <div className="partner-marquee">
+          <div className="partner-track">
+            <div className="partner-track-group">
+              {items.map(({ image, name, url, type }) => (
+                <Link
+                  className="partner-card"
+                  key={name}
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img
-                    src={`/assets/${image}`}
+                    src={image}
                     alt={name}
-                    width="150"
-                    height="70"
+                    width="180"
+                    height="75"
                     loading="lazy"
                   />
+                  <span>{type}</span>
                 </Link>
               ))}
             </div>
-          </div>
-          <div>
-            <h3>Academic Collaborations</h3>
-            <div className="partner-logos">
-              {[
-                [
-                  'Sivani_logo.jpeg',
-                  'Sri Sivani College of Engineering',
-                  'https://srisivani.com/',
-                ],
-                [
-                  'vishwa_logo.jpeg',
-                  'Vishwa Vishwani',
-                  'https://www.vishwavishwani.ac.in/',
-                ],
-              ].map(([image, name, url]) => (
-                <Link key={name} href={url} target="_blank" rel="noreferrer">
+            <div className="partner-track-group" aria-hidden="true">
+              {items.map(({ image, name, type }) => (
+                <div className="partner-card" key={`duplicate-${name}`}>
                   <img
-                    src={`/assets/${image}`}
-                    alt={name}
-                    width="150"
-                    height="70"
+                    src={image}
+                    alt=""
+                    width="180"
+                    height="75"
                     loading="lazy"
                   />
-                </Link>
+                  <span>{type}</span>
+                </div>
               ))}
             </div>
           </div>
@@ -575,7 +652,11 @@ export function Collaborations() {
     </section>
   );
 }
-export function Gallery() {
+export function Gallery({
+  images = defaultCmsContent.gallery,
+}: {
+  images?: CmsContent['gallery'];
+}) {
   const [selected, setSelected] = useState<number | null>(null);
   return (
     <section className="section">
@@ -591,16 +672,16 @@ export function Gallery() {
           </span>
         </div>
         <div className="gallery-grid">
-          {[1, 2, 3, 4, 5].map((n, i) => (
+          {images.map((image, i) => (
             <button
-              key={n}
+              key={`${image}-${i}`}
               className={`gallery-photo gallery-${i}`}
-              onClick={() => setSelected(n)}
-              aria-label={`Enlarge campus moment ${n}`}
+              onClick={() => setSelected(i)}
+              aria-label={`Enlarge campus moment ${i + 1}`}
             >
               <img
-                src={`/assets/${n}.jpg`}
-                alt={`Kalpra Academy campus learning event ${n}`}
+                src={image}
+                alt={`Kalpra Academy campus learning event ${i + 1}`}
                 loading="lazy"
                 width="800"
                 height="500"
@@ -622,25 +703,39 @@ export function Gallery() {
             <DialogDescription>
               Learning and collaboration in our community.
             </DialogDescription>
-            {selected && (
+            {selected !== null && (
               <img
-                src={`/assets/${selected}.jpg`}
-                alt={`Kalpra Academy campus moment ${selected}`}
+                src={images[selected]}
+                alt={`Kalpra Academy campus moment ${selected + 1}`}
               />
             )}
             <div className="gallery-controls">
               <button
                 className="button secondary small"
                 aria-label="Previous photo"
-                onClick={() => setSelected((n) => (n === 1 ? 9 : (n || 2) - 1))}
+                onClick={() =>
+                  setSelected((index) =>
+                    index === null || index === 0
+                      ? images.length - 1
+                      : index - 1,
+                  )
+                }
               >
                 <ChevronLeft size={20} />
               </button>
-              <span>{selected} / 9</span>
+              <span>
+                {(selected ?? 0) + 1} / {images.length}
+              </span>
               <button
                 className="button secondary small"
                 aria-label="Next photo"
-                onClick={() => setSelected((n) => (n === 9 ? 1 : (n || 0) + 1))}
+                onClick={() =>
+                  setSelected((index) =>
+                    index === null || index === images.length - 1
+                      ? 0
+                      : index + 1,
+                  )
+                }
               >
                 <ChevronRight size={20} />
               </button>
@@ -684,7 +779,13 @@ function fieldText(data: FormData, name: string) {
   const value = data.get(name);
   return typeof value === 'string' ? value : '';
 }
-export function ContactForm() {
+export function ContactForm({
+  contactEmail = email,
+  courseItems = courses,
+}: {
+  contactEmail?: string;
+  courseItems?: typeof courses;
+}) {
   const searchParams = useSearchParams();
   const requested = searchParams.get('interest');
   const interest =
@@ -696,7 +797,7 @@ export function ContactForm() {
     chosen ||
     (interest &&
     [
-      ...courses.map((c) => c.name),
+      ...courseItems.map((c) => c.name),
       'Academic Collaboration',
       'Hands-On Workshops',
       'AI Hackathons',
@@ -730,7 +831,7 @@ export function ContactForm() {
     }
     const body = `Full name: ${fieldText(data, 'name')}\nEmail: ${fieldText(data, 'email')}\nPhone: ${phone}\nInterested in: ${course}\n\n${fieldText(data, 'message')}`;
     setDraft(
-      `mailto:${email}?subject=${encodeURIComponent('Program enquiry: ' + course)}&body=${encodeURIComponent(body)}`,
+      `mailto:${contactEmail}?subject=${encodeURIComponent('Program enquiry: ' + course)}&body=${encodeURIComponent(body)}`,
     );
     setStatus(
       'Your enquiry is ready. Open your email app below and send it to our team.',
@@ -789,7 +890,7 @@ export function ContactForm() {
             </SelectTrigger>
             <SelectContent>
               {[
-                ...courses.map((c) => c.name),
+                ...courseItems.map((c) => c.name),
                 'Academic Collaboration',
                 'Hands-On Workshops',
                 'AI Hackathons',
@@ -832,7 +933,13 @@ export function ContactForm() {
     </form>
   );
 }
-export function ContactSection() {
+export function ContactSection({
+  details = defaultCmsContent.contact,
+  courseItems = courses,
+}: {
+  details?: CmsContent['contact'];
+  courseItems?: typeof courses;
+}) {
   return (
     <section className="section contact-section" id="contact">
       <div className="container contact-grid">
@@ -847,48 +954,51 @@ export function ContactSection() {
               <Mail size={21} />
               <div>
                 <span>EMAIL US</span>
-                <Link href={`mailto:${email}`}>{email}</Link>
+                <Link href={`mailto:${details.email}`}>{details.email}</Link>
               </div>
             </div>
             <div>
               <Phone size={21} />
               <div>
                 <span>CALL US</span>
-                <Link href="tel:+918341345668">+91 8341345668</Link>
-                <Link href="tel:+919704761116">+91 9704761116</Link>
-                <Link href="tel:+12819425455">+1 281-942-5455</Link>
+                {details.phones.map((phone) => (
+                  <Link
+                    key={phone}
+                    href={`tel:${phone.replace(/[^+\d]/g, '')}`}
+                  >
+                    {phone}
+                  </Link>
+                ))}
               </div>
             </div>
             <div>
               <MapPin size={21} />
               <div>
                 <span>INDIA</span>
-                <p>
-                  H No: 3-2-25/A Chaithnyapuri Enclave Colony,
-                  <br />
-                  Manikonda, Hyderabad, Telangana, 500089.
-                </p>
+                <p>{details.indiaAddress}</p>
               </div>
             </div>
             <div>
               <MapPin size={21} />
               <div>
                 <span>USA</span>
-                <p>
-                  13111 Westheimer Rd., Suite 311,
-                  <br />
-                  Houston, TX, 77077
-                </p>
+                <p>{details.usaAddress}</p>
               </div>
             </div>
           </div>
         </div>
-        <ContactForm />
+        <ContactForm contactEmail={details.email} courseItems={courseItems} />
       </div>
     </section>
   );
 }
-export function Footer() {
+export function Footer({
+  contactEmail = defaultCmsContent.contact.email,
+  courseItems = courses,
+}: {
+  contactEmail?: string;
+  courseItems?: typeof courses;
+}) {
   const [newsletter, setNewsletter] = useState('');
   return (
     <footer className="footer">
@@ -933,7 +1043,7 @@ export function Footer() {
           </div>
           <div>
             <h3>Programs</h3>
-            {courses.slice(0, 4).map((c) => (
+            {courseItems.slice(0, 4).map((c) => (
               <Link key={c.slug} href={`/${c.slug}`}>
                 {c.name}
               </Link>
@@ -959,7 +1069,7 @@ export function Footer() {
                 e.preventDefault();
                 const d = new FormData(e.currentTarget);
                 setNewsletter(
-                  `mailto:${email}?subject=Newsletter%20subscription&body=${encodeURIComponent('Please subscribe ' + fieldText(d, 'newsletter') + ' to the Kalpra Academy newsletter.')}`,
+                  `mailto:${contactEmail}?subject=Newsletter%20subscription&body=${encodeURIComponent('Please subscribe ' + fieldText(d, 'newsletter') + ' to the Kalpra Academy newsletter.')}`,
                 );
               }}
             >
@@ -982,8 +1092,8 @@ export function Footer() {
                 <Link href={newsletter}>Send subscription request ↗</Link>
               </output>
             )}
-            <Link className="footer-email" href={`mailto:${email}`}>
-              {email}
+            <Link className="footer-email" href={`mailto:${contactEmail}`}>
+              {contactEmail}
             </Link>
           </div>
         </div>
