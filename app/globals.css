@@ -3221,3 +3221,50 @@ body {
     transition: none !important;
   }
 }
+/* Site-content assistant */
+.kalpra-chat-anchor { position: fixed; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); z-index: 45; }
+.kalpra-chat-launcher { display: flex; align-items: center; gap: 10px; padding: 16px 21px; border-radius: 999px; background: #0864ae; color: white; font-size: 1rem; font-weight: 700; box-shadow: 0 8px 28px #06477740; cursor: pointer; transition: transform .2s, background .2s; }
+.kalpra-chat-launcher:hover { background: #064d87; transform: translateY(-3px); }
+.kalpra-chat-panel { width: min(410px, calc(100vw - 32px)); max-height: min(650px, calc(100dvh - 100px), var(--available-height, 650px)); min-height: 0; padding: 0; gap: 0; overflow: hidden; border-radius: 20px; background: #fff; color: #172b43; box-shadow: 0 18px 65px #173b6440; border: 1px solid #d8e4f0; }
+.kalpra-chat-header { display: flex; align-items: center; gap: 8px; padding: 18px; background: #0a5fa7; color: white; flex-shrink: 0; }
+.kalpra-chat-header > div { flex: 1; }
+.kalpra-chat-title { color: white; font-size: 1.1rem; font-weight: 750; }
+.kalpra-chat-subtitle { color: #e1effb; font-size: .875rem; }
+.kalpra-chat-header button { padding: 8px; min-width: 44px; min-height: 44px; display: grid; place-items: center; border-radius: 8px; cursor: pointer; }
+.kalpra-chat-header button:hover { background: #ffffff25; }
+.kalpra-chat-log { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 18px; display: flex; flex-direction: column; gap: 14px; background: #f5f8fc; flex: 1 1 auto; }
+.kalpra-chat-message { max-width: 94%; border-radius: 14px; padding: 13px; background: white; border: 1px solid #dce6ef; align-self: flex-start; overflow-wrap: anywhere; flex-shrink: 0; }
+.kalpra-chat-message p { white-space: pre-line; margin: 0; font-size: 1rem; font-weight: 500; line-height: 1.6; color: inherit; }
+.kalpra-chat-message.user { align-self: flex-end; background: #0a5fa7; border-color: #0a5fa7; color: white; }
+.kalpra-chat-links { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.kalpra-chat-links a { color: #075b9e; background: #edf5fd; border-radius: 8px; padding: 9px 11px; font-size: .875rem; font-weight: 700; }
+.kalpra-chat-links a:hover { text-decoration: underline; background: #dfeffc; }
+.kalpra-chat-prompts { display: flex; flex-wrap: wrap; gap: 7px; padding: 12px 16px; flex-shrink: 0; }
+.kalpra-chat-prompts button { border: 1px solid #c5d9eb; border-radius: 16px; color: #155582; padding: 6px 10px; font-size: .875rem; font-weight: 600; text-align: left; cursor: pointer; }
+.kalpra-chat-prompts button:hover { background: #edf5fd; }
+.kalpra-chat-form { display: flex; gap: 8px; padding: 0 16px 10px; flex-shrink: 0; }
+.kalpra-chat-form input { width: 0; flex: 1; border: 1px solid #b8ccdf; border-radius: 10px; padding: 12px; font-size: 1rem; color: #172b43; background: white; }
+.kalpra-chat-form button { background: #0a5fa7; color: white; border-radius: 10px; width: 46px; display: grid; place-items: center; cursor: pointer; }
+.kalpra-chat-panel button:disabled { opacity: .5; cursor: not-allowed; }
+.kalpra-chat-note { font-size: .75rem; line-height: 1.5; padding: 0 16px 12px; margin: 0; color: #516578; flex-shrink: 0; }
+.kalpra-chat-error { color: #9d2626; padding: 0 16px 10px; font-size: .875rem; }
+.kalpra-chat-error a { text-decoration: underline; }
+.kalpra-chat-status { font-size: .875rem; color: #365470; }
+.kalpra-chat-panel :focus-visible, .kalpra-chat-launcher:focus-visible { outline: 3px solid #e9a923; outline-offset: 3px; }
+@media (pointer: coarse) {
+  .kalpra-chat-prompts button, .kalpra-chat-links a { min-height: 44px; }
+}
+@media (max-height: 600px) {
+  .kalpra-chat-header { padding: 8px 12px; }
+  .kalpra-chat-log { padding: 8px 12px; }
+  .kalpra-chat-prompts { flex-wrap: nowrap; overflow-x: auto; padding: 6px 12px; }
+  .kalpra-chat-prompts button { flex-shrink: 0; }
+  .kalpra-chat-form { padding: 0 12px 6px; }
+  .kalpra-chat-note { padding: 0 12px 6px; }
+}
+@media (max-width: 360px) {
+  .kalpra-chat-anchor { right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); }
+  .kalpra-chat-header { padding: 10px; gap: 4px; }
+  .kalpra-chat-title { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) { .kalpra-chat-launcher { transition: none; } .kalpra-chat-launcher:hover { transform: none; } }
