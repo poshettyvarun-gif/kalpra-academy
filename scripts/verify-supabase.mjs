@@ -23,4 +23,77 @@ if (uploadError) throw new Error(`Storage upload check failed: ${uploadError.mes
 const { error: cleanupError } = await supabase.storage.from('cms-media').remove([path]);
 if (cleanupError) throw new Error(`Storage cleanup check failed: ${cleanupError.message}`);
 
-console.log('Supabase CMS database and image storage are connected.');
+const baseUrl = process.env.E2E_BASE_URL;
+if (baseUrl) {
+  const check = async (pathname, expected = 200, options) => {
+    const response = await fetch(new URL(pathname, baseUrl), options);
+    if (response.status !== expected) {
+      throw new Error(`${pathname} returned ${response.status}; expected ${expected}.`);
+    }
+    return response;
+  };
+  const publicContent = await (await check('/api/content')).json();
+  if (!Array.isArray(publicContent.courses) || !publicContent.courses.length) {
+    throw new Error('The public CMS API did not return courses.');
+  }
+  await check('/');
+  await check('/admin');
+  await check(`/${encodeURIComponent(publicContent.courses[0].slug)}`);
+  await check('/api/admin/content', 401);
+
+  const username = process.env.ADMIN_USERNAME;
+  const sessionSecret = process.env.ADMIN_SESSION_SECRET;
+  if (!username || !sessionSecret) throw new Error('Admin environment variables are missing.');
+  const payload = `${username}.${Date.now() + 5 * 60 * 1000}`;
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(sessionSecret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const signature = Array.from(
+    new Uint8Array(
+      await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload)),
+    ),
+    (byte) => byte.toString(16).padStart(2, '0'),
+  ).join('');
+  const headers = {
+    cookie: `kalpra_admin=${encodeURIComponent(`${payload}.${signature}`)}`,
+  };
+  const adminContent = await (
+    await check('/api/admin/content', 200, { headers })
+  ).json();
+  await check('/api/admin/content', 200, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      origin: new URL(baseUrl).origin,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(adminContent),
+  });
+
+  const form = new FormData();
+  form.set('file', new File([pixel], 'connection-test.png', { type: 'image/png' }));
+  const upload = await (
+    await check('/api/admin/upload', 200, {
+      method: 'POST',
+      headers: { ...headers, origin: new URL(baseUrl).origin },
+      body: form,
+    })
+  ).json();
+  const marker = '/storage/v1/object/public/cms-media/';
+  const uploadedPath = decodeURIComponent(new URL(upload.url).pathname.split(marker)[1] || '');
+  if (!uploadedPath) throw new Error('The upload route returned an invalid media URL.');
+  const { error: routeCleanupError } = await supabase.storage
+    .from('cms-media')
+    .remove([uploadedPath]);
+  if (routeCleanupError) throw new Error(`Route upload cleanup failed: ${routeCleanupError.message}`);
+}
+
+console.log(
+  baseUrl
+    ? 'Website, CMS API, publishing, access control and image storage passed.'
+    : 'Supabase CMS database and image storage are connected.',
+);
