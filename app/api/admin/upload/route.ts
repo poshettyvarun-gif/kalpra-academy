@@ -1,5 +1,5 @@
 import { isAdminRequest, isSameOrigin } from '@/lib/admin-auth';
-import { getCmsEnv } from '@/lib/cms-server';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,10 +14,10 @@ export async function POST(request: Request) {
   if (!isSameOrigin(request) || !(await isAdminRequest(request))) {
     return Response.json({ error: 'Unauthorized.' }, { status: 401 });
   }
-  const bucket = getCmsEnv().MEDIA;
-  if (!bucket) {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
     return Response.json(
-      { error: 'Media storage is unavailable.' },
+      { error: 'Supabase Storage is not configured.' },
       { status: 503 },
     );
   }
@@ -42,10 +42,18 @@ export async function POST(request: Request) {
       { status: 413 },
     );
   }
-  const key = `${Date.now()}-${crypto.randomUUID()}.${extension}`;
-  await bucket.put(key, file.stream(), {
-    httpMetadata: { contentType: file.type },
-    customMetadata: { originalName: file.name.slice(0, 180) },
+  const key = `cms/${Date.now()}-${crypto.randomUUID()}.${extension}`;
+  const { error } = await supabase.storage.from('cms-media').upload(key, file, {
+    cacheControl: '31536000',
+    contentType: file.type,
+    upsert: false,
   });
-  return Response.json({ url: `/media/${key}` });
+  if (error) {
+    return Response.json(
+      { error: `Upload failed: ${error.message}` },
+      { status: 502 },
+    );
+  }
+  const { data } = supabase.storage.from('cms-media').getPublicUrl(key);
+  return Response.json({ url: data.publicUrl });
 }

@@ -9,7 +9,8 @@ import { recentFailedLogins, recordLogin } from '@/lib/cms-server';
 export const dynamic = 'force-dynamic';
 
 async function fingerprint(request: Request) {
-  const value = `${request.headers.get('cf-connecting-ip') || 'local'}:${request.headers.get('user-agent') || 'unknown'}`;
+  const forwarded = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  const value = `${forwarded || request.headers.get('x-real-ip') || 'local'}:${request.headers.get('user-agent') || 'unknown'}`;
   const digest = await crypto.subtle.digest(
     'SHA-256',
     new TextEncoder().encode(value),

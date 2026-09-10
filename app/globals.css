@@ -15,7 +15,7 @@
   --color-popover-foreground: #122239;
   --color-accent: #eaf3fc;
   --color-accent-foreground: #0c58a1;
-  --font-sans: var(--font-geist-sans);
+  --font-sans: Arial, Helvetica, sans-serif;
   --radius-lg: 12px;
   --radius-md: 8px;
 }
@@ -37,7 +37,7 @@ html {
 }
 body {
   margin: 0;
-  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: var(--foreground);
   font-size: 16px;
   line-height: 1.6;

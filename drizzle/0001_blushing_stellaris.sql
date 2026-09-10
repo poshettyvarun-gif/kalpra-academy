@@ -1,1 +1,0 @@
-CREATE INDEX `idx_login_attempts_fingerprint_time` ON `login_attempts` (`fingerprint`,`attempted_at`);

@@ -1,17 +1,6 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { WebsiteChatbot } from '@/components/website-chatbot';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -20,7 +9,9 @@ export const metadata: Metadata = {
   },
   description:
     'Explore Python, data science, AI, cloud and career programs at Kalpra Academy. Learn with expert mentors, practical projects and career guidance.',
-  metadataBase: new URL('https://kalpra-academy.kalpra-vfx.chatgpt.site'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  ),
   openGraph: {
     title: 'Kalpra Academy | Build Your Future',
     description:
@@ -38,9 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         {children}
         <WebsiteChatbot />
       </body>

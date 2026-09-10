@@ -25,6 +25,12 @@ export async function PUT(request: Request) {
   if (JSON.stringify(content).length > 1_000_000) {
     return Response.json({ error: 'Content is too large.' }, { status: 413 });
   }
-  await saveCmsContent(content);
-  return Response.json({ ok: true, content });
+  try {
+    await saveCmsContent(content);
+    return Response.json({ ok: true, content });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : 'Unable to publish content.';
+    return Response.json({ error: message }, { status: 503 });
+  }
 }

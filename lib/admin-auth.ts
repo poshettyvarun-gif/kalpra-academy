@@ -1,5 +1,3 @@
-import { getCmsEnv } from './cms-server';
-
 export const adminCookieName = 'kalpra_admin';
 const encoder = new TextEncoder();
 
@@ -29,10 +27,11 @@ export async function verifyAdminCredentials(
   username: string,
   password: string,
 ) {
-  const cmsEnv = getCmsEnv();
-  if (!cmsEnv.ADMIN_USERNAME || !cmsEnv.ADMIN_PASSWORD_HASH) return false;
+  const adminUsername = process.env.ADMIN_USERNAME;
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+  if (!adminUsername || !passwordHash) return false;
   const [scheme, iterationsRaw, saltHex, expectedHex] =
-    cmsEnv.ADMIN_PASSWORD_HASH.split(':');
+    passwordHash.split(':');
   const iterations = Number(iterationsRaw);
   if (scheme !== 'pbkdf2' || !iterations || !saltHex || !expectedHex) {
     return false;
@@ -57,13 +56,13 @@ export async function verifyAdminCredentials(
     ),
   );
   return (
-    username === cmsEnv.ADMIN_USERNAME &&
+    username === adminUsername &&
     constantTimeEqual(derived, hexToBytes(expectedHex))
   );
 }
 
 async function sign(payload: string) {
-  const secret = getCmsEnv().ADMIN_SESSION_SECRET;
+  const secret = process.env.ADMIN_SESSION_SECRET;
   if (!secret) throw new Error('Admin session secret is unavailable.');
   const key = await crypto.subtle.importKey(
     'raw',
@@ -92,7 +91,7 @@ export async function verifyAdminToken(token: string | undefined) {
   const expires = Number(expiresRaw);
   const expected = await sign(`${username}.${expiresRaw}`);
   return (
-    username === getCmsEnv().ADMIN_USERNAME &&
+    username === process.env.ADMIN_USERNAME &&
     expires > Date.now() &&
     constantTimeEqual(hexToBytes(signature), hexToBytes(expected))
   );
