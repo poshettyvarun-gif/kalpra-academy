@@ -21,6 +21,15 @@ export type CmsPartner = {
   type: string;
 };
 
+export type CmsTestimonial = {
+  name: string;
+  role: string;
+  course: string;
+  image: string;
+  imagePosition: string;
+  quote: string;
+};
+
 export type CmsContent = {
   hero: {
     badge: string;
@@ -32,6 +41,12 @@ export type CmsContent = {
   outcomes: CmsOutcome[];
   services: CmsService[];
   partners: CmsPartner[];
+  testimonialsSection: {
+    label: string;
+    title: string;
+    description: string;
+  };
+  testimonials: CmsTestimonial[];
   gallery: string[];
   contact: {
     email: string;
@@ -119,6 +134,41 @@ export const defaultCmsContent: CmsContent = {
       type: 'Academic partner',
     },
   ],
+  testimonialsSection: {
+    label: 'LEARNER STORIES',
+    title: 'Skills that create real careers.',
+    description:
+      'Hear from learners who turned practical training into confidence, capability and meaningful career progress.',
+  },
+  testimonials: [
+    {
+      name: 'Kavya',
+      role: 'AI Engineer at Drake AI',
+      course: 'AI Course Graduate',
+      image: '/assets/testimonial-kavya.png',
+      imagePosition: 'center 12%',
+      quote:
+        'Kalpra Academy’s practical AI training strengthened my skills and confidence, helping me begin my career as an AI Engineer at Drake AI.',
+    },
+    {
+      name: 'Sravan',
+      role: 'Cloud Engineer',
+      course: 'Cloud Course Graduate',
+      image: '/assets/testimonial-srawan.png',
+      imagePosition: 'center 28%',
+      quote:
+        'Kalpra Academy’s hands-on cloud training gave me practical skills, stronger confidence and the foundation to grow my career as a Cloud Engineer.',
+    },
+    {
+      name: 'Rajashekar',
+      role: 'AI Engineer at Drake AI',
+      course: 'AI Course Graduate',
+      image: '/assets/testimonial-rajashekar.jpg',
+      imagePosition: 'center top',
+      quote:
+        'The practical AI projects and expert guidance at Kalpra Academy helped me sharpen my skills and grow as an AI Engineer at Drake AI.',
+    },
+  ],
   gallery: [1, 2, 3, 4, 5].map((number) => `/assets/${number}.jpg`),
   contact: {
     email: 'registration@kalpraacademy.com',
@@ -138,6 +188,10 @@ export function normalizeCmsContent(value: unknown): CmsContent {
     ...partial,
     hero: { ...defaultCmsContent.hero, ...partial.hero },
     contact: { ...defaultCmsContent.contact, ...partial.contact },
+    testimonialsSection: {
+      ...defaultCmsContent.testimonialsSection,
+      ...partial.testimonialsSection,
+    },
     outcomes:
       Array.isArray(partial.outcomes) && partial.outcomes.length
         ? partial.outcomes
@@ -150,6 +204,10 @@ export function normalizeCmsContent(value: unknown): CmsContent {
       Array.isArray(partial.partners) && partial.partners.length
         ? partial.partners
         : defaultCmsContent.partners,
+    testimonials:
+      Array.isArray(partial.testimonials) && partial.testimonials.length
+        ? partial.testimonials
+        : defaultCmsContent.testimonials,
     gallery:
       Array.isArray(partial.gallery) && partial.gallery.length
         ? partial.gallery

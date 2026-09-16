@@ -34,7 +34,10 @@ export default async function Home() {
         <Outcomes items={content.outcomes} />
         <Founder />
         <Collaborations items={content.partners} />
-        <Testimonials />
+        <Testimonials
+          items={content.testimonials}
+          heading={content.testimonialsSection}
+        />
         <Gallery images={content.gallery} />
         <FinalCTA />
         <ContactSection

@@ -700,47 +700,23 @@ export function Collaborations({
     </section>
   );
 }
-export function Testimonials() {
-  const testimonials = [
-    {
-      name: 'Kavya',
-      role: 'AI Engineer at Drake AI',
-      course: 'AI Course Graduate',
-      image: '/assets/testimonial-kavya.png',
-      imagePosition: 'center 12%',
-      quote:
-        'Kalpra Academy’s practical AI training strengthened my skills and confidence, helping me begin my career as an AI Engineer at Drake AI.',
-    },
-    {
-      name: 'Srawan',
-      role: 'Cloud Engineer',
-      course: 'Cloud Course Graduate',
-      image: '/assets/testimonial-srawan.png',
-      imagePosition: 'center 28%',
-      quote:
-        'Kalpra Academy’s hands-on cloud training gave me practical skills, stronger confidence and the foundation to grow my career as a Cloud Engineer.',
-    },
-    {
-      name: 'Rajashekar',
-      role: 'AI Engineer',
-      course: 'AI Course Graduate',
-      image: '/assets/testimonial-rajashekar.jpg',
-      imagePosition: 'center top',
-      quote:
-        'The practical AI projects and expert guidance at Kalpra Academy helped me sharpen my technical skills and confidently grow as an AI Engineer.',
-    },
-  ];
-
+export function Testimonials({
+  items = defaultCmsContent.testimonials,
+  heading = defaultCmsContent.testimonialsSection,
+}: {
+  items?: CmsContent['testimonials'];
+  heading?: CmsContent['testimonialsSection'];
+}) {
   return (
     <section className="testimonials-section" id="testimonials">
       <div className="container">
         <SectionHeading
-          label="LEARNER STORIES"
-          title="Skills that create real careers."
-          description="Hear from learners who turned practical training into confidence, capability and meaningful career progress."
+          label={heading.label}
+          title={heading.title}
+          description={heading.description}
         />
         <div className="testimonials-grid">
-          {testimonials.map(
+          {items.map(
             ({ name, role, course, image, imagePosition, quote }) => (
               <article className="testimonial-card" key={name}>
                 <div className="testimonial-photo">

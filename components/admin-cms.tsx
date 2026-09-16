@@ -301,6 +301,7 @@ export function AdminCms() {
             ['courses', 'Courses'],
             ['stats', 'Statistics'],
             ['partners', 'Partners'],
+            ['testimonials', 'Testimonials'],
             ['gallery', 'Gallery'],
             ['contact', 'Contact'],
           ].map(([value, label]) => (
@@ -687,6 +688,167 @@ export function AdminCms() {
             }
           >
             <Plus size={17} /> Add partner
+          </button>
+        </TabsContent>
+
+        <TabsContent value="testimonials" className="cms-panel">
+          <PanelTitle
+            title="Learner testimonials"
+            text="Update the testimonial section, learner details and photographs."
+          />
+          <div className="cms-grid two">
+            <Field label="Small heading">
+              <input
+                value={content.testimonialsSection.label}
+                onChange={(event) =>
+                  update(
+                    (draft) =>
+                      (draft.testimonialsSection.label = event.target.value),
+                  )
+                }
+              />
+            </Field>
+            <Field label="Main heading">
+              <input
+                value={content.testimonialsSection.title}
+                onChange={(event) =>
+                  update(
+                    (draft) =>
+                      (draft.testimonialsSection.title = event.target.value),
+                  )
+                }
+              />
+            </Field>
+            <Field label="Section description">
+              <textarea
+                rows={3}
+                value={content.testimonialsSection.description}
+                onChange={(event) =>
+                  update(
+                    (draft) =>
+                      (draft.testimonialsSection.description =
+                        event.target.value),
+                  )
+                }
+              />
+            </Field>
+          </div>
+          <div className="cms-stack">
+            {content.testimonials.map((testimonial, index) => (
+              <article
+                className="cms-record"
+                key={`${testimonial.name}-${index}`}
+              >
+                <div className="cms-record-head">
+                  <h3>Testimonial {index + 1}</h3>
+                  {content.testimonials.length > 1 && (
+                    <button
+                      className="cms-icon-button danger"
+                      aria-label={`Remove ${testimonial.name}`}
+                      onClick={() =>
+                        update((draft) => draft.testimonials.splice(index, 1))
+                      }
+                      type="button"
+                    >
+                      <Trash2 size={17} />
+                    </button>
+                  )}
+                </div>
+                <div className="cms-grid two">
+                  <Field label="Learner name">
+                    <input
+                      value={testimonial.name}
+                      onChange={(event) =>
+                        update(
+                          (draft) =>
+                            (draft.testimonials[index].name =
+                              event.target.value),
+                        )
+                      }
+                    />
+                  </Field>
+                  <Field label="Current role or company">
+                    <input
+                      value={testimonial.role}
+                      onChange={(event) =>
+                        update(
+                          (draft) =>
+                            (draft.testimonials[index].role =
+                              event.target.value),
+                        )
+                      }
+                    />
+                  </Field>
+                  <Field label="Course badge">
+                    <input
+                      value={testimonial.course}
+                      onChange={(event) =>
+                        update(
+                          (draft) =>
+                            (draft.testimonials[index].course =
+                              event.target.value),
+                        )
+                      }
+                    />
+                  </Field>
+                  <Field
+                    label="Photo position"
+                    hint="Examples: center top, center 25%, or 50% 20%."
+                  >
+                    <input
+                      value={testimonial.imagePosition}
+                      onChange={(event) =>
+                        update(
+                          (draft) =>
+                            (draft.testimonials[index].imagePosition =
+                              event.target.value),
+                        )
+                      }
+                    />
+                  </Field>
+                  <Field label="Testimonial quote">
+                    <textarea
+                      rows={5}
+                      value={testimonial.quote}
+                      onChange={(event) =>
+                        update(
+                          (draft) =>
+                            (draft.testimonials[index].quote =
+                              event.target.value),
+                        )
+                      }
+                    />
+                  </Field>
+                </div>
+                <ImageField
+                  label={`${testimonial.name || 'Learner'} photograph`}
+                  value={testimonial.image}
+                  onChange={(url) =>
+                    update(
+                      (draft) => (draft.testimonials[index].image = url),
+                    )
+                  }
+                />
+              </article>
+            ))}
+          </div>
+          <button
+            className="cms-add-button"
+            onClick={() =>
+              update((draft) =>
+                draft.testimonials.push({
+                  name: 'New learner',
+                  role: 'Job role',
+                  course: 'Course Graduate',
+                  image: '/assets/hero.jpg',
+                  imagePosition: 'center top',
+                  quote: 'Add the learner testimonial here.',
+                }),
+              )
+            }
+            type="button"
+          >
+            <Plus size={17} /> Add testimonial
           </button>
         </TabsContent>
 
