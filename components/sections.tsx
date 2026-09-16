@@ -602,6 +602,27 @@ export function Collaborations({
 }: {
   items?: CmsContent['partners'];
 }) {
+  const academicItems = items.filter(({ type }) =>
+    /academic|college|university/i.test(type),
+  );
+  const industryItems = items.filter(
+    ({ type }) => !/academic|college|university/i.test(type),
+  );
+  const lanes = [
+    {
+      key: 'industry',
+      title: 'Industry & Technology Partners',
+      description: 'Companies helping learners connect skills with industry.',
+      items: industryItems,
+    },
+    {
+      key: 'academic',
+      title: 'Academic Institutions',
+      description: 'Colleges collaborating to bring practical learning to campus.',
+      items: academicItems,
+    },
+  ].filter(({ items: laneItems }) => laneItems.length > 0);
+
   return (
     <section className="collaboration-section" id="collaborations">
       <div className="container">
@@ -610,43 +631,152 @@ export function Collaborations({
           title="Growing through collaboration."
           center
         />
-        <div className="partner-marquee">
-          <div className="partner-track">
-            <div className="partner-track-group">
-              {items.map(({ image, name, url, type }) => (
-                <Link
-                  className="partner-card"
-                  key={name}
-                  href={url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img
-                    src={image}
-                    alt={name}
-                    width="180"
-                    height="75"
-                    loading="lazy"
-                  />
-                  <span>{type}</span>
-                </Link>
-              ))}
-            </div>
-            <div className="partner-track-group" aria-hidden="true">
-              {items.map(({ image, name, type }) => (
-                <div className="partner-card" key={`duplicate-${name}`}>
-                  <img
-                    src={image}
-                    alt=""
-                    width="180"
-                    height="75"
-                    loading="lazy"
-                  />
-                  <span>{type}</span>
+        <div className="partner-lanes">
+          {lanes.map(({ key, title, description, items: laneItems }) => {
+            const repeats = Math.max(1, Math.ceil(6 / laneItems.length));
+            const scrollingItems = Array.from(
+              { length: repeats },
+              () => laneItems,
+            ).flat();
+
+            return (
+              <div className={`partner-lane partner-lane--${key}`} key={key}>
+                <div className="partner-lane-heading">
+                  <h3>{title}</h3>
+                  <p>{description}</p>
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="partner-marquee">
+                  <div className="partner-track">
+                    {[false, true].map((duplicate) => (
+                      <div
+                        className="partner-track-group"
+                        aria-hidden={duplicate || undefined}
+                        key={duplicate ? 'duplicate' : 'original'}
+                      >
+                        {scrollingItems.map(
+                          ({ image, name, url, type }, index) =>
+                            duplicate ? (
+                              <div
+                                className="partner-card"
+                                key={`duplicate-${name}-${index}`}
+                              >
+                                <img
+                                  src={image}
+                                  alt=""
+                                  width="180"
+                                  height="75"
+                                  loading="lazy"
+                                />
+                                <span>{type}</span>
+                              </div>
+                            ) : (
+                              <Link
+                                className="partner-card"
+                                key={`${name}-${index}`}
+                                href={url}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                <img
+                                  src={image}
+                                  alt={name}
+                                  width="180"
+                                  height="75"
+                                  loading="lazy"
+                                />
+                                <span>{type}</span>
+                              </Link>
+                            ),
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+export function Testimonials() {
+  const testimonials = [
+    {
+      name: 'Kavya',
+      role: 'AI Engineer at Drake AI',
+      course: 'AI Course Graduate',
+      image: '/assets/testimonial-kavya.png',
+      imagePosition: 'center 12%',
+      quote:
+        'Kalpra Academy’s practical AI training strengthened my skills and confidence, helping me begin my career as an AI Engineer at Drake AI.',
+    },
+    {
+      name: 'Srawan',
+      role: 'Cloud Engineer',
+      course: 'Cloud Course Graduate',
+      image: '/assets/testimonial-srawan.png',
+      imagePosition: 'center 28%',
+      quote:
+        'Kalpra Academy’s hands-on cloud training gave me practical skills, stronger confidence and the foundation to grow my career as a Cloud Engineer.',
+    },
+    {
+      name: 'Rajashekar',
+      role: 'AI Engineer',
+      course: 'AI Course Graduate',
+      image: '/assets/testimonial-rajashekar.jpg',
+      imagePosition: 'center top',
+      quote:
+        'The practical AI projects and expert guidance at Kalpra Academy helped me sharpen my technical skills and confidently grow as an AI Engineer.',
+    },
+  ];
+
+  return (
+    <section className="testimonials-section" id="testimonials">
+      <div className="container">
+        <SectionHeading
+          label="LEARNER STORIES"
+          title="Skills that create real careers."
+          description="Hear from learners who turned practical training into confidence, capability and meaningful career progress."
+        />
+        <div className="testimonials-grid">
+          {testimonials.map(
+            ({ name, role, course, image, imagePosition, quote }) => (
+              <article className="testimonial-card" key={name}>
+                <div className="testimonial-photo">
+                  <img
+                    src={image}
+                    alt={`${name}, ${role}`}
+                    width="520"
+                    height="520"
+                    loading="lazy"
+                    style={{ objectPosition: imagePosition }}
+                  />
+                  <span>{course}</span>
+                </div>
+                <div className="testimonial-body">
+                  <div
+                    className="testimonial-stars"
+                    aria-label="5 out of 5 stars"
+                  >
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <Star
+                        key={index}
+                        size={15}
+                        fill="currentColor"
+                        aria-hidden="true"
+                      />
+                    ))}
+                  </div>
+                  <blockquote>“{quote}”</blockquote>
+                  <div className="testimonial-person">
+                    <strong>{name}</strong>
+                    <span>{role}</span>
+                  </div>
+                </div>
+              </article>
+            ),
+          )}
         </div>
       </div>
     </section>

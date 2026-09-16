@@ -1309,9 +1309,39 @@ p {
   font-weight: 700;
   color: #10263e;
 }
+.partner-lanes {
+  display: grid;
+  gap: 38px;
+  margin-top: 42px;
+}
+.partner-lane {
+  min-width: 0;
+}
+.partner-lane + .partner-lane {
+  padding-top: 34px;
+  border-top: 1px solid #dce7f1;
+}
+.partner-lane-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 6px;
+}
+.partner-lane-heading h3 {
+  color: #10263e;
+  font-size: 19px;
+  font-weight: 750;
+}
+.partner-lane-heading p {
+  color: #61778b;
+  font-size: 12px;
+  font-weight: 550;
+  text-align: right;
+}
 .partner-marquee {
   width: 100%;
-  margin-top: 34px;
+  margin-top: 18px;
   overflow: hidden;
   padding: 7px 0 18px;
   -webkit-mask-image: linear-gradient(
@@ -1335,6 +1365,10 @@ p {
   gap: 20px;
   width: max-content;
   animation: partner-scroll 28s linear infinite;
+}
+.partner-lane--academic .partner-track {
+  animation-direction: reverse;
+  animation-duration: 32s;
 }
 .partner-marquee:hover .partner-track,
 .partner-marquee:focus-within .partner-track {
@@ -1378,6 +1412,108 @@ p {
   transform: translateY(-5px);
   border-color: #9fc6e8;
   box-shadow: 0 15px 32px #153a5c16;
+}
+.testimonials-section {
+  padding: 90px 0;
+  background:
+    radial-gradient(circle at 88% 10%, #dceeff 0, transparent 28%),
+    #fff;
+  border-bottom: 1px solid #e7eef5;
+}
+.testimonials-section .section-heading {
+  max-width: 680px;
+}
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #dce7f1;
+  border-radius: 18px;
+  box-shadow: 0 16px 42px #173b6412;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-8px);
+  border-color: #a9cceb;
+  box-shadow: 0 24px 55px #173b6426;
+}
+.testimonial-photo {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  background: #eaf2f8;
+}
+.testimonial-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.45s ease;
+}
+.testimonial-card:hover .testimonial-photo img {
+  transform: scale(1.045);
+}
+.testimonial-photo span {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #ffffffed;
+  color: #0864ae;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 5px 16px #10263e1a;
+}
+.testimonial-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 260px;
+  padding: 22px 20px 21px;
+}
+.testimonial-stars {
+  display: flex;
+  gap: 3px;
+  color: #e9a923;
+}
+.testimonial-body blockquote {
+  margin: 17px 0 24px;
+  color: #29445f;
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 1.75;
+}
+.testimonial-person {
+  display: grid;
+  gap: 3px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #e6edf4;
+}
+.testimonial-person strong {
+  color: #10263e;
+  font-size: 17px;
+}
+.testimonial-person span {
+  color: #547089;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
 }
 @keyframes partner-scroll {
   to {
@@ -3268,3 +3404,250 @@ body {
   .kalpra-chat-title { font-size: 1rem; }
 }
 @media (prefers-reduced-motion: reduce) { .kalpra-chat-launcher { transition: none; } .kalpra-chat-launcher:hover { transform: none; } }
+
+@media (max-width: 1100px) {
+  .testimonials-section {
+    padding: 70px 0;
+  }
+  .testimonials-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+@media (max-width: 620px) {
+  .partner-lanes {
+    gap: 28px;
+    margin-top: 30px;
+  }
+  .partner-lane + .partner-lane {
+    padding-top: 27px;
+  }
+  .partner-lane-heading {
+    display: block;
+  }
+  .partner-lane-heading h3 {
+    font-size: 17px;
+  }
+  .partner-lane-heading p {
+    margin-top: 5px;
+    font-size: 11px;
+    text-align: left;
+  }
+  .partner-card {
+    flex-basis: 190px;
+    width: 190px;
+  }
+  .testimonials-section {
+    padding: 52px 0;
+  }
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  .testimonial-photo {
+    height: 280px;
+  }
+  .testimonial-body {
+    min-height: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-card:hover,
+  .testimonial-card:hover .testimonial-photo img {
+    transform: none;
+  }
+}
+
+/* Responsive guardrails for narrow phones, tablets and large displays. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+main,
+section,
+.container,
+.hero-copy,
+.hero-visual,
+.section-heading,
+.contact-grid > *,
+.footer-grid > *,
+.course-hero-grid > *,
+.detail-layout > * {
+  min-width: 0;
+}
+.tabs-scroll,
+.cms-tab-list {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+@media (max-width: 1000px) {
+  .nav-links.open {
+    max-height: calc(100dvh - 78px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+@media (max-width: 850px) {
+  .hero h1 {
+    font-size: clamp(42px, 7.5vw, 58px);
+  }
+}
+@media (max-width: 420px) {
+  .container {
+    width: calc(100% - 28px);
+  }
+  .nav-row,
+  .scrolled .nav-row {
+    min-height: 72px;
+  }
+  .logo {
+    width: 148px;
+  }
+  .hero-grid {
+    padding-top: 38px;
+    padding-bottom: 42px;
+  }
+  .hero h1 {
+    font-size: clamp(35px, 10.5vw, 40px);
+    overflow-wrap: anywhere;
+  }
+  .hero-badge {
+    max-width: 100%;
+    line-height: 1.45;
+  }
+  .button-row {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .button-row .button {
+    width: 100%;
+  }
+  .hero-visual {
+    width: 100%;
+    padding: 12px 12px 0;
+    transform: none;
+    box-shadow: 8px 10px 0 #dcebf65c;
+  }
+  .hero-photo {
+    height: 260px;
+  }
+  .floating-note {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    margin: -18px 8px 0;
+    transform: none;
+  }
+  .photo-caption {
+    bottom: 28px;
+  }
+  .photo-caption strong {
+    font-size: 22px;
+  }
+  .visual-bottom {
+    gap: 7px;
+    font-size: 8px;
+  }
+  .reasons-grid {
+    grid-template-columns: 1fr;
+  }
+  .founder-portrait {
+    height: min(400px, 118vw);
+  }
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 190px);
+  }
+  .gallery-0 {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .final-cta {
+    padding: 30px 20px;
+  }
+  .final-cta h2 {
+    font-size: 31px;
+  }
+  .contact-form {
+    padding: 22px 16px;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-brand,
+  .footer-grid > div:last-child {
+    grid-column: auto;
+  }
+  .cms-login-card {
+    width: calc(100% - 24px);
+    padding: 26px 20px;
+  }
+  .cms-login-card > img {
+    width: 185px;
+    margin: 24px 0;
+  }
+  .cms-login-card h1 {
+    font-size: 32px;
+  }
+  .cms-shell {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+  .cms-panel,
+  .cms-record {
+    padding: 16px;
+  }
+  .testimonial-photo {
+    height: clamp(240px, 82vw, 300px);
+  }
+  .kalpra-chat-panel {
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 76px);
+  }
+}
+@media (max-width: 340px) {
+  .nav-cta {
+    display: none;
+  }
+  .logo {
+    width: 155px;
+  }
+  .benefit-grid,
+  .outcomes-grid {
+    grid-template-columns: 1fr;
+  }
+  .outcomes-grid article {
+    border-right: 0;
+    border-bottom: 1px solid #ffffff24;
+  }
+  .outcomes-grid article:last-child {
+    border-bottom: 0;
+  }
+  .kalpra-chat-launcher {
+    width: 52px;
+    height: 52px;
+    justify-content: center;
+    padding: 0;
+  }
+  .kalpra-chat-launcher span {
+    display: none;
+  }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .nav-row,
+  .scrolled .nav-row {
+    min-height: 64px;
+  }
+  .nav-links.open {
+    max-height: calc(100dvh - 64px);
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .hero-grid {
+    padding-top: 34px;
+    padding-bottom: 38px;
+  }
+  .kalpra-chat-panel {
+    max-height: calc(100dvh - 24px);
+  }
+}

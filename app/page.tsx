@@ -8,6 +8,7 @@ import {
   Outcomes,
   Founder,
   Collaborations,
+  Testimonials,
   Gallery,
   FinalCTA,
   ContactSection,
@@ -33,6 +34,7 @@ export default async function Home() {
         <Outcomes items={content.outcomes} />
         <Founder />
         <Collaborations items={content.partners} />
+        <Testimonials />
         <Gallery images={content.gallery} />
         <FinalCTA />
         <ContactSection
