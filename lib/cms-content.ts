@@ -160,7 +160,7 @@ export const defaultCmsContent: CmsContent = {
         'Kalpra Academy’s hands-on cloud training gave me practical skills, stronger confidence and the foundation to grow my career as a Cloud Engineer.',
     },
     {
-      name: 'Rajashekar',
+      name: 'Rajasekhar',
       role: 'AI Engineer at Drake AI',
       course: 'AI Course Graduate',
       image: '/assets/testimonial-rajashekar.jpg',
