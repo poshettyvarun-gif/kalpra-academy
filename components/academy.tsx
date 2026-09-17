@@ -49,7 +49,7 @@ const navigation = [
       ['Services overview', '/#services'],
       ['Academic collaborations', '/#gallery'],
       ['Hands-on workshops', '/#gallery'],
-      ['Industrial training', '/courses'],
+      ['Industrial training', '/courses#courses'],
     ],
   },
 ];
