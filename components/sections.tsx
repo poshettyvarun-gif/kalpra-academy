@@ -765,7 +765,7 @@ export function Gallery({
 }) {
   const [selected, setSelected] = useState<number | null>(null);
   return (
-    <section className="section">
+    <section className="section" id="gallery">
       <div className="container">
         <div className="section-header-row">
           <SectionHeading

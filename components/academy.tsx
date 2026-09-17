@@ -47,12 +47,9 @@ const navigation = [
     label: 'Beyond the classroom',
     links: [
       ['Services overview', '/#services'],
-      [
-        'Academic collaborations',
-        '/contact?interest=Academic%20Collaborations',
-      ],
-      ['Hands-on workshops', '/contact?interest=Hands-On%20Workshops'],
-      ['Industrial training', '/contact?interest=Industrial%20Training'],
+      ['Academic collaborations', '/#gallery'],
+      ['Hands-on workshops', '/#gallery'],
+      ['Industrial training', '/courses'],
     ],
   },
 ];
