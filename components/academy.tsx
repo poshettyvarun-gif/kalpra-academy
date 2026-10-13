@@ -2,6 +2,7 @@
 /* oxlint-disable next/no-img-element */
 'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { useEffect, useState } from 'react';
 import {
@@ -33,13 +34,13 @@ const navigation = [
     name: 'Courses',
     label: 'Explore learning',
     links: [
-      ['All courses', '/courses'],
+      ['All courses', '/courses#courses'],
       [
         'AI & Machine Learning',
-        '/courses?category=AI%20%26%20Machine%20Learning',
+        '/courses?category=AI%20%26%20Machine%20Learning#courses',
       ],
-      ['Data Science', '/courses?category=Data%20Science'],
-      ['Development', '/courses?category=Development'],
+      ['Data Science', '/courses?category=Data%20Science#courses'],
+      ['Development', '/courses?category=Development#courses'],
     ],
   },
   {
@@ -57,12 +58,19 @@ const navigation = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
     fn();
     window.addEventListener('scroll', fn);
     return () => window.removeEventListener('scroll', fn);
   }, []);
+  useEffect(() => {
+    if (pathname !== '/' || window.location.hash !== '#home') return;
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }, [pathname]);
   return (
     <>
       <Link className="skip-link" href="#main">
@@ -70,7 +78,18 @@ export function Header() {
       </Link>
       <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="container nav-row">
-          <Link href="/" aria-label="Kalpra Academy home">
+          <Link
+            href="/#home"
+            aria-label="Kalpra Academy home — back to top"
+            onClick={(event) => {
+              setOpen(false);
+              if (window.location.pathname === '/') {
+                event.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.history.replaceState(null, '', '/#home');
+              }
+            }}
+          >
             <img
               className="logo"
               src="/assets/kalpra-logo.png"
@@ -83,7 +102,17 @@ export function Header() {
             aria-label="Main navigation"
             className={open ? 'nav-links open' : 'nav-links'}
           >
-            <Link href="/" onClick={() => setOpen(false)}>
+            <Link
+              href="/#home"
+              onClick={(event) => {
+                setOpen(false);
+                if (window.location.pathname === '/') {
+                  event.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  window.history.replaceState(null, '', '/#home');
+                }
+              }}
+            >
               Home
             </Link>
             {navigation.map(({ name, label, links }) => (

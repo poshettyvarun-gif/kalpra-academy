@@ -1,25 +1,13 @@
 import { isAdminRequest, isSameOrigin } from '@/lib/admin-auth';
-import { getSupabaseAdmin } from '@/lib/supabase-admin';
+import { allowedImageTypes, getUploadRoot } from '@/lib/media-storage';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 export const dynamic = 'force-dynamic';
-
-const allowedTypes = new Map([
-  ['image/jpeg', 'jpg'],
-  ['image/png', 'png'],
-  ['image/webp', 'webp'],
-  ['image/avif', 'avif'],
-]);
 
 export async function POST(request: Request) {
   if (!isSameOrigin(request) || !(await isAdminRequest(request))) {
     return Response.json({ error: 'Unauthorized.' }, { status: 401 });
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) {
-    return Response.json(
-      { error: 'Supabase Storage is not configured.' },
-      { status: 503 },
-    );
   }
   const form = await request.formData();
   const file = form.get('file');
@@ -29,7 +17,7 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  const extension = allowedTypes.get(file.type);
+  const extension = allowedImageTypes.get(file.type);
   if (!extension) {
     return Response.json(
       { error: 'Use a JPG, PNG, WebP or AVIF image.' },
@@ -42,18 +30,24 @@ export async function POST(request: Request) {
       { status: 413 },
     );
   }
-  const key = `cms/${Date.now()}-${crypto.randomUUID()}.${extension}`;
-  const { error } = await supabase.storage.from('cms-media').upload(key, file, {
-    cacheControl: '31536000',
-    contentType: file.type,
-    upsert: false,
-  });
-  if (error) {
+  const filename = `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+  const directory = join(getUploadRoot(), 'cms');
+  try {
+    await mkdir(directory, { recursive: true });
+    await writeFile(
+      join(directory, filename),
+      Buffer.from(await file.arrayBuffer()),
+      {
+        flag: 'wx',
+      },
+    );
+  } catch (error) {
     return Response.json(
-      { error: `Upload failed: ${error.message}` },
-      { status: 502 },
+      {
+        error: `Upload failed: ${error instanceof Error ? error.message : 'storage error'}`,
+      },
+      { status: 500 },
     );
   }
-  const { data } = supabase.storage.from('cms-media').getPublicUrl(key);
-  return Response.json({ url: data.publicUrl });
+  return Response.json({ url: `/media/cms/${filename}` });
 }

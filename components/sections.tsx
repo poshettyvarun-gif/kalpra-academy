@@ -129,7 +129,7 @@ export function Audience() {
                 href={
                   value === 'Career & Faculty'
                     ? '/contact?interest=Academic%20Collaboration'
-                    : `/courses?category=${encodeURIComponent(value)}`
+                    : `/courses?category=${encodeURIComponent(value)}#courses`
                 }
               >
                 {link}
@@ -210,13 +210,36 @@ export function Programs({
   const searchParams = useSearchParams();
   const requested = searchParams.get('category');
   const [chosen, setCategory] = useState<string | null>(null);
+  const courseContentRef = useRef<HTMLDivElement>(null);
   const category =
     chosen ||
     (requested && categories.includes(requested) ? requested : 'All Programs');
+
+  useEffect(() => {
+    const scrollToCourses = () => {
+      if (window.location.hash !== '#courses') return;
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          courseContentRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        });
+      });
+    };
+
+    scrollToCourses();
+    window.addEventListener('hashchange', scrollToCourses);
+    return () => window.removeEventListener('hashchange', scrollToCourses);
+  }, [requested]);
+
   return (
     <section className="section programs-section" id="courses">
       <div className="container">
-        <div className="section-header-row">
+        <div
+          className="section-header-row programs-scroll-target"
+          ref={courseContentRef}
+        >
           <SectionHeading
             label="LEARN WHAT'S NEXT"
             title={full ? 'Find your next chapter.' : 'Explore our programs.'}
@@ -618,7 +641,8 @@ export function Collaborations({
     {
       key: 'academic',
       title: 'Academic Institutions',
-      description: 'Colleges collaborating to bring practical learning to campus.',
+      description:
+        'Colleges collaborating to bring practical learning to campus.',
       items: academicItems,
     },
   ].filter(({ items: laneItems }) => laneItems.length > 0);
@@ -716,43 +740,41 @@ export function Testimonials({
           description={heading.description}
         />
         <div className="testimonials-grid">
-          {items.map(
-            ({ name, role, course, image, imagePosition, quote }) => (
-              <article className="testimonial-card" key={name}>
-                <div className="testimonial-photo">
-                  <img
-                    src={image}
-                    alt={`${name}, ${role}`}
-                    width="520"
-                    height="520"
-                    loading="lazy"
-                    style={{ objectPosition: imagePosition }}
-                  />
-                  <span>{course}</span>
+          {items.map(({ name, role, course, image, imagePosition, quote }) => (
+            <article className="testimonial-card" key={name}>
+              <div className="testimonial-photo">
+                <img
+                  src={image}
+                  alt={`${name}, ${role}`}
+                  width="520"
+                  height="520"
+                  loading="lazy"
+                  style={{ objectPosition: imagePosition }}
+                />
+                <span>{course}</span>
+              </div>
+              <div className="testimonial-body">
+                <div
+                  className="testimonial-stars"
+                  aria-label="5 out of 5 stars"
+                >
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <Star
+                      key={index}
+                      size={15}
+                      fill="currentColor"
+                      aria-hidden="true"
+                    />
+                  ))}
                 </div>
-                <div className="testimonial-body">
-                  <div
-                    className="testimonial-stars"
-                    aria-label="5 out of 5 stars"
-                  >
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star
-                        key={index}
-                        size={15}
-                        fill="currentColor"
-                        aria-hidden="true"
-                      />
-                    ))}
-                  </div>
-                  <blockquote>“{quote}”</blockquote>
-                  <div className="testimonial-person">
-                    <strong>{name}</strong>
-                    <span>{role}</span>
-                  </div>
+                <blockquote>“{quote}”</blockquote>
+                <div className="testimonial-person">
+                  <strong>{name}</strong>
+                  <span>{role}</span>
                 </div>
-              </article>
-            ),
-          )}
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -1111,7 +1133,16 @@ export function Footer({
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <Link href="/">
+            <Link
+              href="/#home"
+              onClick={(event) => {
+                if (window.location.pathname === '/') {
+                  event.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  window.history.replaceState(null, '', '/#home');
+                }
+              }}
+            >
               <img
                 src="/assets/kalpra-logo.png"
                 alt="Kalpra Academy — For Skill Development"

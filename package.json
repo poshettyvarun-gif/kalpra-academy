@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=22.13.0"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "next dev",
@@ -11,13 +11,13 @@
     "start": "next start",
     "lint": "oxlint",
     "format": "oxfmt",
-    "migrate:cms": "node --env-file-if-exists=.env.development.local --env-file=.env.local scripts/import-cms-to-supabase.mjs",
-    "verify:supabase": "node --env-file-if-exists=.env.development.local --env-file=.env.local scripts/verify-supabase.mjs"
+    "db:setup": "node --env-file-if-exists=.env.development.local --env-file=.env.local scripts/setup-postgres.mjs",
+    "db:migrate-content": "node --env-file-if-exists=.env.development.local --env-file=.env.local scripts/migrate-cms-to-postgres.mjs",
+    "verify:postgres": "node --env-file-if-exists=.env.development.local --env-file=.env.local scripts/verify-postgres.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
     "@shadcn/react": "0.3.0",
-    "@supabase/supabase-js": "^2.98.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "cmdk": "1.1.1",
@@ -26,6 +26,7 @@
     "input-otp": "1.4.2",
     "lucide-react": "1.31.0",
     "next": "^16.1.6",
+    "postgres": "^3.4.9",
     "react": "19.2.6",
     "react-day-picker": "9.8.1",
     "react-dom": "19.2.6",
